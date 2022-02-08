@@ -1,4 +1,8 @@
+// Fontes
+
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+// Variáveis
 
 $cor-fundo: #e5e5e5;
 $cor-fundo-status: #dcdcdc;
@@ -6,6 +10,14 @@ $cor-fundo-normal: white;
 $cor-fundo-reservada: #ffdede;
 
 $fonte-padrao: "Roboto", sans-serif;
+
+// Regra APENAS para prevenir animação ao carregar a página
+body.preload *{
+    animation-duration: 0s !important;
+    -webkit-animation-duration: 0s !important;
+    transition:background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;}
+
+// Regras
 
 * {
     box-sizing: border-box;
@@ -51,13 +63,8 @@ $fonte-padrao: "Roboto", sans-serif;
     left: 0;
     z-index: 2;
 
-    transition: all 5s;
-
     &.escondido {
-        display: none;
-        background: rgba(0, 0, 0, 0);
-
-        transition: all 5s;
+        display: none;   
     }
 }
 
@@ -68,7 +75,7 @@ $fonte-padrao: "Roboto", sans-serif;
     bottom: 0;
     left: 30%;
 
-    transition: all 5s;
+    z-index: 3;
 
     font-family: $fonte-padrao;
     font-size: 16px;
@@ -78,13 +85,10 @@ $fonte-padrao: "Roboto", sans-serif;
 
     padding: 0 27px 0 17px;
 
-    &.escondido {
-        left: 100%;
-        transition: all 5s;
-    }
+    transition: all 150ms;
 
-    &__lista {
-        
+    &.escondido {
+        transform: translateX(100%);
     }
 
     &__titulo {

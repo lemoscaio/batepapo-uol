@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="preload">
+    <!-- Header -->
     <header class="topo barra-fixa">
         <img src="imagens/logo 1.png" alt="Logo do bate papo UOL" class="topo__imagem">
         <div class="topo__menu" onclick="abrirMenuLateral()">
@@ -18,8 +19,10 @@
         </div>
     </header>
 
+    <!-- Sidebar -->
     <div class="escurecer-fundo escondido" onclick="fecharMenuLateral(this)">
-        <nav class="menu-lateral escondido" >
+    </div>
+    <nav class="menu-lateral escondido">
             <h2 class="menu-lateral__titulo">Escolha um contato para enviar mensagem:</h2>
             <ul class="menu-lateral__lista usuarios">
                 <li class="menu-lateral__item todos">Todos</li>
@@ -32,8 +35,9 @@
                 <li class="menu-lateral__item reservadamente selecionado">Reservadamente</li>
             </ul>
         </nav>
-    </div>
-
+    <!-- </div> -->
+    
+    <!-- Mensagens -->
     <main class="container">
         <section class="mensagens">
             <article class="mensagem status">
@@ -75,6 +79,7 @@
         </section>
     </main>
 
+    <!-- Footer / Caixa de Mensagem -->
     <footer class="caixa-mensagem barra-fixa">
 
         <div class="caixa-mensagem__campo-mensagem">

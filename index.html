@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bate Papo UOL</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="topo barra-fixa">
+        <img src="imagens/logo 1.png" alt="Logo do bate papo UOL" class="topo__imagem">
+        <div class="topo__menu" onclick="abrirMenuLateral()">
+            <ion-icon name="people"></ion-icon>
+        </div>
+    </header>
+
+    <div class="escurecer-fundo escondido" >
+        <nav class="menu-lateral escondido" >
+            <h2 class="menu-lateral__titulo">Escolha um contato para enviar mensagem:</h2>
+            <ul class="menu-lateral__lista usuarios">
+                <li class="menu-lateral__item todos">Todos</li>
+                <li class="menu-lateral__item usuario">João</li>
+                <li class="menu-lateral__item usuario selecionado">Maria</li>
+            </ul>
+            <h2 class="menu-lateral__titulo">Escolha a visibilidade:</h2>
+            <ul class="menu-lateral__lista visibilidade">
+                <li class="menu-lateral__item publico">Público</li>
+                <li class="menu-lateral__item reservadamente selecionado">Reservadamente</li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="container">
+        <section class="mensagens">
+            <article class="mensagem status">
+                <p class="mensagem__horario">(09:21:45)</p>
+                <p class="mensagem__nome"> João</p>
+                <p class="mensagem__texto"> entra na sala...</p>
+            </article>
+
+            <article class="mensagem normal">
+                <p class="mensagem__horario">(09:22:28)</p>
+                <p class="mensagem__nome">João</p>
+                <p class="mensagem__para">para</p>
+                <p class="mensagem__nome">Todos</p>
+                <p class="mensagem__texto">Bom dia</p>
+            </article>
+
+            <article class="mensagem normal">
+                <p class="mensagem__horario">(09:22:38)</p>
+                <p class="mensagem__nome">Maria</p>
+                <p class="mensagem__para">para</p>
+                <p class="mensagem__nome">João</p>
+                <p class="mensagem__texto">Oi João :)</p>
+            </article>
+
+            <article class="mensagem reservada">
+                <p class="mensagem__horario">(09:22:48)</p>
+                <p class="mensagem__nome">João</p>
+                <p class="mensagem__para">reservadamente para</p>
+                <p class="mensagem__nome">Maria</p>
+                <p class="mensagem__texto">Oi gatinha quer tc?</p>
+            </article>
+
+            <article class="mensagem status">
+                <p class="mensagem__horario">(09:22:58)</p>
+                <p class="mensagem__nome">Maria</p>
+                <p class="mensagem__texto">sai da sala...</p>
+            </article>
+
+        </section>
+    </main>
+
+    <footer class="caixa-mensagem barra-fixa">
+
+        <div class="caixa-mensagem__campo-mensagem">
+            <input class="caixa-mensagem__input" type="text" name="" id="" placeholder="Escreva aqui...">
+            <p class="caixa-mensagem__info-adicional">Enviando para Maria (reservadamente)</p>
+        </div>
+        <div class="caixa-mensagem__enviar">
+            <ion-icon name="paper-plane-outline"></ion-icon>
+        </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="main.js"></script>
+    <!-- Ion Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

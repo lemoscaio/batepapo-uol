@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+$cor-fundo: #e5e5e5;
+$cor-fundo-status: #dcdcdc;
+$cor-fundo-normal: white;
+$cor-fundo-reservada: #ffdede;
+
+$fonte-padrao: "Roboto", sans-serif;
+
+* {
+    box-sizing: border-box;
+    font-family: $fonte-padrao;
+}
+
+.barra-fixa {
+    background-color: $cor-fundo-normal;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 80px;
+
+    padding: 0 22px;
+}
+
+.topo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+
+    &__imagem {
+        height: 53px;
+        object-fit: contain;
+    }
+
+    &__menu {
+        font-size: 31px;
+    }
+}
+
+.escurecer-fundo {
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    transition: all 5s;
+
+    &.escondido {
+        display: none;
+        background: rgba(0, 0, 0, 0);
+
+        transition: all 5s;
+    }
+}
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 30%;
+
+    transition: all 5s;
+
+    font-family: $fonte-padrao;
+    font-size: 16px;
+
+    border: 1px solid black; // TEMPORÁRIO
+    background-color: $cor-fundo-normal;
+
+    padding: 0 27px 0 17px;
+
+    &.escondido {
+        left: 100%;
+        transition: all 5s;
+    }
+
+    &__lista {
+        
+    }
+
+    &__titulo {
+        font-weight: 700;
+        font-size: 16px;
+        width: 75%;
+        text-align: center;
+        margin: 0 auto;
+        padding: 30px 0;
+    }
+
+    &__item{
+        position: relative;
+        padding: 15px 0;
+
+        &::before {
+        vertical-align: middle;
+        margin-right: 9px;
+        }
+
+        &.todos::before {
+            content: url(../imagens/icones/todos.svg);
+        }
+
+        &.usuario::before {
+            content: url(../imagens/icones/usuario.svg);
+        }
+
+        &.publico::before {
+            content: url(../imagens/icones/cadeado-aberto.svg);
+        }
+
+        &.reservadamente::before {
+            content: url(../imagens/icones/cadeado-fechado.svg);
+        }
+
+        &.selecionado::after {
+            position: absolute;
+            right: 0;
+
+            vertical-align: middle;
+
+            content: url("../imagens/icones/check.svg");
+            transform: scale(1.2);
+        }
+    }
+}
+
+.container {
+    background-color: $cor-fundo; // TEMPORÁRIO
+    padding-top: 100px; // TEMPORÁRIO
+}
+
+.mensagens {
+    font-size: 14px;
+
+    .mensagem {
+        &.status {
+            background-color: $cor-fundo-status;
+        }
+
+        &.normal {
+            background-color: $cor-fundo-normal;
+        }
+
+        &.reservada {
+            background-color: $cor-fundo-reservada;
+        }
+
+        display: flex;
+
+        padding: 10px; // TEMPORÁRIO
+        margin: 5px 0; // TEMPORÁRIO
+
+        &__nome {
+            font-weight: bold;
+        }
+    }
+}
+
+.caixa-mensagem {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    padding-left: 0;
+
+    font-family: $fonte-padrao;
+
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+
+    &__input {
+        font-family: inherit;
+        font-size: 18px;
+        font-style: italic;
+
+        border: none;
+
+        height: 100%;
+        width: 100%;
+
+        padding-left: 22px;
+
+        &::placeholder {
+            color: black;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__info-adicional {
+        color: grey;
+        font-size: 14px;
+
+        padding-top: 7px;
+        padding-left: 22px;
+    }
+
+    &__enviar {
+        font-size: 26px;
+    }
+}

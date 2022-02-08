@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+.barra-fixa {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 22px;
+}
+
+.topo {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+}
+.topo__imagem {
+  height: 53px;
+  object-fit: contain;
+}
+.topo__menu {
+  font-size: 31px;
+}
+
+.escurecer-fundo {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  transition: all 5s;
+}
+.escurecer-fundo.escondido {
+  display: none;
+  background: rgba(0, 0, 0, 0);
+  transition: all 5s;
+}
+
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 30%;
+  transition: all 5s;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  border: 1px solid black;
+  background-color: white;
+  padding: 0 27px 0 17px;
+}
+.menu-lateral.escondido {
+  left: 100%;
+  transition: all 5s;
+}
+.menu-lateral__titulo {
+  font-weight: 700;
+  font-size: 16px;
+  width: 75%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+.menu-lateral__item {
+  position: relative;
+  padding: 15px 0;
+}
+.menu-lateral__item::before {
+  vertical-align: middle;
+  margin-right: 9px;
+}
+.menu-lateral__item.todos::before {
+  content: url(../imagens/icones/todos.svg);
+}
+.menu-lateral__item.usuario::before {
+  content: url(../imagens/icones/usuario.svg);
+}
+.menu-lateral__item.publico::before {
+  content: url(../imagens/icones/cadeado-aberto.svg);
+}
+.menu-lateral__item.reservadamente::before {
+  content: url(../imagens/icones/cadeado-fechado.svg);
+}
+.menu-lateral__item.selecionado::after {
+  position: absolute;
+  right: 0;
+  vertical-align: middle;
+  content: url("../imagens/icones/check.svg");
+  transform: scale(1.2);
+}
+
+.container {
+  background-color: #e5e5e5;
+  padding-top: 100px;
+}
+
+.mensagens {
+  font-size: 14px;
+}
+.mensagens .mensagem {
+  display: flex;
+  padding: 10px;
+  margin: 5px 0;
+}
+.mensagens .mensagem.status {
+  background-color: #dcdcdc;
+}
+.mensagens .mensagem.normal {
+  background-color: white;
+}
+.mensagens .mensagem.reservada {
+  background-color: #ffdede;
+}
+.mensagens .mensagem__nome {
+  font-weight: bold;
+}
+
+.caixa-mensagem {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding-left: 0;
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+}
+.caixa-mensagem__input {
+  font-family: inherit;
+  font-size: 18px;
+  font-style: italic;
+  border: none;
+  height: 100%;
+  width: 100%;
+  padding-left: 22px;
+}
+.caixa-mensagem__input::placeholder {
+  color: black;
+}
+.caixa-mensagem__input:focus {
+  outline: none;
+}
+.caixa-mensagem__info-adicional {
+  color: grey;
+  font-size: 14px;
+  padding-top: 7px;
+  padding-left: 22px;
+}
+.caixa-mensagem__enviar {
+  font-size: 26px;
+}
+
+/*# sourceMappingURL=style.css.map */

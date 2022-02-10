@@ -103,6 +103,8 @@ body.preload * {
 .container {
   background-color: #e5e5e5;
   padding-top: 100px;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 .mensagens {
@@ -110,22 +112,28 @@ body.preload * {
 }
 .mensagens .mensagem {
   display: flex;
-  padding: 10px;
-  margin: 5px 0;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 13px;
+  margin: 4px 0;
+  line-height: 1.25;
+}
+.mensagens .mensagem__horario {
+  color: grey;
+}
+.mensagens .mensagem__nome {
+  font-weight: 700;
 }
 .mensagens .mensagem.status {
   background-color: #dcdcdc;
 }
-.mensagens .mensagem.normal {
+.mensagens .mensagem.message {
   background-color: white;
 }
-.mensagens .mensagem.reservada {
+.mensagens .mensagem.private_mesage {
   background-color: #ffdede;
 }
-.mensagens .mensagem__nome {
-  font-weight: bold;
-}
-
 .caixa-mensagem {
   position: fixed;
   bottom: 0;

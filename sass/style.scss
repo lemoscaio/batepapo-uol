@@ -140,32 +140,50 @@ body.preload *{
 .container {
     background-color: $cor-fundo; // TEMPORÁRIO
     padding-top: 100px; // TEMPORÁRIO
+    height: 100vh;
+    overflow-y: scroll;
 }
 
 .mensagens {
     font-size: 14px;
 
     .mensagem {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+
+        padding: 10px 13px;
+        margin: 4px 0;
+
+        line-height: 1.25;
+
+        &__horario {
+            color: grey;
+        }
+
+        &__nome {
+            font-weight: 700;
+        }
+
+        // Tipos de mensagem //
+
         &.status {
             background-color: $cor-fundo-status;
         }
 
-        &.normal {
+        &.message {
             background-color: $cor-fundo-normal;
         }
 
-        &.reservada {
+        &.private_mesage {
             background-color: $cor-fundo-reservada;
         }
 
-        display: flex;
+    }
 
-        padding: 10px; // TEMPORÁRIO
-        margin: 5px 0; // TEMPORÁRIO
-
-        &__nome {
-            font-weight: bold;
-        }
+    & * {
+        // padding: 5px;
     }
 }
 

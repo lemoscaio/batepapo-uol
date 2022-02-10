@@ -1,13 +1,81 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-body.preload * {
-  animation-duration: 0s !important;
-  -webkit-animation-duration: 0s !important;
-  transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
-}
-
 * {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
+}
+
+.tela-login {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  overflow-x: scroll;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: transform 0.3s ease;
+}
+.tela-login__area-login {
+  margin-bottom: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tela-login__logo {
+  width: 130px;
+  margin-top: 30%;
+  margin-bottom: 30%;
+}
+.tela-login__input {
+  margin: 10px;
+  padding: 18px;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  border: 1px solid #D7D7D7;
+  border-radius: 4px;
+}
+.tela-login__input::placeholder {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  text-align: center;
+  color: #AEAEAE;
+}
+.tela-login__input:focus {
+  outline: none;
+}
+.tela-login__input:focus::placeholder {
+  color: transparent;
+}
+.tela-login__botao {
+  background-color: #E7E7E7;
+  cursor: pointer;
+  margin: 5px;
+  padding: 12px 30px;
+  border-radius: 9px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+}
+.tela-login__area-erro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tela-login__mensagem-erro {
+  width: 70%;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.tela-login.escondido {
+  transform: translateY(-100%);
 }
 
 .barra-fixa {
@@ -56,7 +124,6 @@ body.preload * {
   z-index: 3;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  border: 1px solid black;
   background-color: white;
   padding: 0 27px 0 17px;
   transition: all 150ms;
@@ -75,6 +142,7 @@ body.preload * {
 .menu-lateral__item {
   position: relative;
   padding: 15px 0;
+  display: flex;
 }
 .menu-lateral__item::before {
   vertical-align: middle;
@@ -102,13 +170,13 @@ body.preload * {
 
 .container {
   background-color: #e5e5e5;
-  padding-top: 100px;
   height: 100vh;
   overflow-y: scroll;
 }
 
 .mensagens {
   font-size: 14px;
+  margin: 106px 0;
 }
 .mensagens .mensagem {
   display: flex;

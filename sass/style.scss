@@ -8,20 +8,118 @@ $cor-fundo: #e5e5e5;
 $cor-fundo-status: #dcdcdc;
 $cor-fundo-normal: white;
 $cor-fundo-reservada: #ffdede;
+$cor-texto-input: #AEAEAE;
+$cor-fundo-botao: #E7E7E7;
+$cor-texto-botao: #696969;
 
 $fonte-padrao: "Roboto", sans-serif;
 
 // Regra APENAS para prevenir animação ao carregar a página
-body.preload *{
-    animation-duration: 0s !important;
-    -webkit-animation-duration: 0s !important;
-    transition:background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;}
+// body.preload *{
+//     animation-duration: 0s !important;
+//     -webkit-animation-duration: 0s !important;
+//     transition:background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;}
 
 // Regras
 
 * {
     box-sizing: border-box;
     font-family: $fonte-padrao;
+}
+
+.tela-login {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    overflow-x: scroll;
+
+    background-color: $cor-fundo-normal;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    transition: transform 0.3s ease;
+
+    &__area-login {
+        margin-bottom: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__logo {
+        width: 130px;
+        margin-top: 30%;
+        margin-bottom: 30%;
+    }
+    
+    &__input {
+        margin: 10px;
+        padding: 18px;
+
+        font-family: $fonte-padrao;
+        font-size: 18px;
+        text-align: center;
+
+        border: 1px solid #D7D7D7;
+        border-radius: 4px;
+        
+        &::placeholder {
+            font-family: $fonte-padrao;
+            font-weight: 400;
+            text-align: center;
+            color: #AEAEAE;
+        }
+
+        &:focus{
+            outline: none;
+
+            &::placeholder{
+                color: transparent;
+            }
+        }
+    }
+
+    &__botao {
+        background-color: $cor-fundo-botao;
+
+        cursor: pointer;
+
+        margin: 5px;
+        padding: 12px 30px;
+
+        border-radius: 9px;
+        border: none;
+
+        font-family: $fonte-padrao;
+        font-size: 18px;
+    }
+
+    &__area-erro {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__mensagem-erro {
+        width: 70%;
+
+        font-family: $fonte-padrao;
+        text-align: center;
+        line-height: 1.5;
+
+        margin-top: 10px;
+    }
+
+    &.escondido {
+        transform: translateY(-100%);
+    }
 }
 
 .barra-fixa {
@@ -80,7 +178,7 @@ body.preload *{
     font-family: $fonte-padrao;
     font-size: 16px;
 
-    border: 1px solid black; // TEMPORÁRIO
+    
     background-color: $cor-fundo-normal;
 
     padding: 0 27px 0 17px;
@@ -103,6 +201,8 @@ body.preload *{
     &__item{
         position: relative;
         padding: 15px 0;
+
+        display: flex;
 
         &::before {
         vertical-align: middle;
@@ -139,13 +239,14 @@ body.preload *{
 
 .container {
     background-color: $cor-fundo; // TEMPORÁRIO
-    padding-top: 100px; // TEMPORÁRIO
+    // padding-top: 106px; // TEMPORÁRIO
     height: 100vh;
     overflow-y: scroll;
 }
 
 .mensagens {
     font-size: 14px;
+    margin: 106px 0;
 
     .mensagem {
         display: flex;

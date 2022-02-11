@@ -8,9 +8,11 @@ let mensagensAntigas = [];
 let visibilidade = true;
 
 let mensagem = {
-    to = "Todos",
-    type = "message"
+    to: "Todos",
+    type: "message"
 };
+
+// Funções temporárias
 
 function cadastrarUsuarioHardCoded() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", usuario);
@@ -29,6 +31,8 @@ function cadastrarUsuarioHardCodedOK(response) {
 function cadastrarUsuarioHardCodedFalhou(response) {
     console.log("Deu ruim! Usuário já existe");
 }
+
+// Funções
 
 function cadastrarUsuario() {
     const inputEl = document.querySelector(".tela-login__input")
@@ -93,8 +97,25 @@ function imprimirMensagens(response) {
     for (let i = 0; i < mensagensNovas.length; i++) {
         const mensagemNova = mensagensNovas[i];
 
+        let paraQuem = ""
+
+        switch (mensagemNova.type) {
+            case "status":
+                paraQuem = ""
+                mensagemNova.to = ""
+                break
+            case "message":
+                paraQuem = "para"
+                mensagemNova.to += ":"
+                break
+            case "private_message":
+                paraQuem = "reservadamente para"
+                mensagemNova.to += ":"
+        }
+
+
         const templateMensagem = `<article class="mensagem ${mensagemNova.type}">
-        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemNova.time})</span> <span class="mensagem__nome">${mensagemNova.from}</span> para <span class="mensagem__nome">${mensagemNova.to}</span>: ${mensagemNova.text}</p>
+        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemNova.time})</span> <span class="mensagem__nome">${mensagemNova.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemNova.to}</span> ${mensagemNova.text}</p>
         </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM
 
         mensagensEl.innerHTML += templateMensagem;

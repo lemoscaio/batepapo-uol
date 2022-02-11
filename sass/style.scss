@@ -14,6 +14,12 @@ $cor-texto-botao: #696969;
 
 $fonte-padrao: "Roboto", sans-serif;
 
+@mixin desktop-only {
+    @media screen and (min-width: 1000px) {
+        @content
+    }
+}
+
 // Regra APENAS para prevenir animação ao carregar a página
 // body.preload *{
 //     animation-duration: 0s !important;
@@ -132,6 +138,8 @@ $fonte-padrao: "Roboto", sans-serif;
     height: 80px;
 
     padding: 0 22px;
+
+    // display: none;
 }
 
 .topo {
@@ -180,13 +188,17 @@ $fonte-padrao: "Roboto", sans-serif;
 
     
     background-color: $cor-fundo-normal;
-
-    padding: 0 27px 0 17px;
-
+    
+    padding: 0 0 0 17px;
+    
     transition: all 150ms;
-
+    
     &.escondido {
         transform: translateX(100%);
+    }
+    
+    & * {
+        overflow-x: hidden;
     }
 
     &__titulo {
@@ -196,6 +208,11 @@ $fonte-padrao: "Roboto", sans-serif;
         text-align: center;
         margin: 0 auto;
         padding: 30px 0;
+    }
+
+    &__lista {
+        max-height: 60%;
+        overflow-y: scroll;
     }
 
     &__item{
@@ -227,7 +244,7 @@ $fonte-padrao: "Roboto", sans-serif;
 
         &.selecionado::after {
             position: absolute;
-            right: 0;
+            right: 30px;
 
             vertical-align: middle;
 
@@ -235,18 +252,30 @@ $fonte-padrao: "Roboto", sans-serif;
             transform: scale(1.2);
         }
     }
+
+    @include desktop-only(){
+        left: 70%;;
+    }
+
 }
 
 .container {
     background-color: $cor-fundo; // TEMPORÁRIO
     // padding-top: 106px; // TEMPORÁRIO
-    height: 100vh;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 80px;
+    height: calc(100vh - 160px);
     overflow-y: scroll;
+
+    padding: 26px 0;
 }
 
 .mensagens {
     font-size: 14px;
-    margin: 106px 0;
+
+    // margin: 26px 0;
 
     .mensagem {
         display: flex;
@@ -277,15 +306,12 @@ $fonte-padrao: "Roboto", sans-serif;
             background-color: $cor-fundo-normal;
         }
 
-        &.private_mesage {
+        &.private_message {
             background-color: $cor-fundo-reservada;
         }
 
     }
 
-    & * {
-        // padding: 5px;
-    }
 }
 
 .caixa-mensagem {
@@ -328,9 +354,14 @@ $fonte-padrao: "Roboto", sans-serif;
 
         padding-top: 7px;
         padding-left: 22px;
+
+        &.escondido {
+            display: none;
+        }
     }
 
     &__enviar {
         font-size: 26px;
+        cursor: pointer;
     }
 }

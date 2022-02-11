@@ -3,6 +3,32 @@ let usuario = {
 };
 let intervaloBuscarMensagens = null;
 let intervaloVerificarConexao = null;
+let intervaloBuscarParticipantes = null;
+let mensagensAntigas = [];
+let visibilidade = true;
+
+let mensagem = {
+    to = "Todos",
+    type = "message"
+};
+
+function cadastrarUsuarioHardCoded() {
+    const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", usuario);
+
+    promise.then(cadastrarUsuarioHardCodedOK);
+    promise.catch(cadastrarUsuarioHardCodedFalhou);
+}
+
+function cadastrarUsuarioHardCodedOK(response) {
+    buscarParticipantes()
+    intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
+
+    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 5000);
+}
+
+function cadastrarUsuarioHardCodedFalhou(response) {
+    console.log("Deu ruim! Usuário já existe");
+}
 
 function cadastrarUsuario() {
     const inputEl = document.querySelector(".tela-login__input")
@@ -14,13 +40,14 @@ function cadastrarUsuario() {
     promise.catch(cadastrarUsuarioFalhou);
 }
 
-
 function cadastrarUsuarioOK(response) {
     const telaLoginEl = document.querySelector(".tela-login")
     telaLoginEl.classList.add("escondido")
 
     buscarParticipantes()
+    intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
 
+    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 5000);
 }
 
 function cadastrarUsuarioFalhou(response) {
@@ -59,19 +86,23 @@ function buscarMensagens() {
 }
 
 function imprimirMensagens(response) {
-    const mensagens = response.data;
+    const mensagensNovas = response.data;
     const mensagensEl = document.querySelector(".mensagens");
     mensagensEl.innerHTML = "";
 
-    for (let i = 0; i < mensagens.length; i++) {
-        const mensagem = mensagens[i];
+    for (let i = 0; i < mensagensNovas.length; i++) {
+        const mensagemNova = mensagensNovas[i];
 
-        const templateMensagem = `<article class="mensagem ${mensagem.type}">
-        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagem.time})</span> <span class="mensagem__nome">${mensagem.from}</span> para <span class="mensagem__nome">${mensagem.to}</span>: ${mensagem.text}</p>
-        </article>`;
+        const templateMensagem = `<article class="mensagem ${mensagemNova.type}">
+        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemNova.time})</span> <span class="mensagem__nome">${mensagemNova.from}</span> para <span class="mensagem__nome">${mensagemNova.to}</span>: ${mensagemNova.text}</p>
+        </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM
 
         mensagensEl.innerHTML += templateMensagem;
+
+        mensagensEl.lastChild.scrollIntoView({ behavior: "auto", block: "end", inline: "nearest" });
     }
+
+
 }
 
 function buscarParticipantes() {
@@ -84,16 +115,41 @@ function imprimirParticipantes(response) {
 
     const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios")
 
+    listaUsuariosEl.innerHTML = ""
+
     for (let i = 0; i < participantes.length; i++) {
         const participante = participantes[i]
 
-        const templateUsuarioLista = `<li class="menu-lateral__item usuario">${participante.name}</li>`
+        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)">${participante.name}</li>`
 
         listaUsuariosEl.innerHTML += templateUsuarioLista
     }
 }
 
-// Definição das funções
+function enviarMensagem() {
+    const MensagemEl = document.querySelector(".caixa-mensagem__input");
+    let mensagemTexto = MensagemEl.value;
+
+    mensagem.from = usuario.name;
+    mensagem.text = mensagemTexto;
+
+    const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
+    promise.then(enviarMensagemOK);
+    promise.catch(enviarMensagemFalhou);
+
+    buscarMensagens();
+    MensagemEl.value = ""
+    mensagem = {};
+}
+
+function enviarMensagemOK() {
+    console.log("mensagem foi")
+}
+
+function enviarMensagemFalhou() {
+    alert("Vish, parece que você está desconectado. Faça o login de novo.")
+    window.location.reload()
+}
 
 function abrirMenuLateral() {
     const menuLateralEl = document.querySelector(".menu-lateral");
@@ -114,8 +170,92 @@ function prevenirAnimacaoAoCarregar() {
     document.body.className = "";
 }
 
+function selecionarUsuario(usuarioClicado) {
+    let UsuarioSelecionadoEl = document.querySelector(".menu-lateral__lista.usuarios .selecionado");
+
+    if (UsuarioSelecionadoEl === null) {
+        usuarioClicado.classList.add("selecionado");
+    }
+    else {
+        UsuarioSelecionadoEl.classList.remove("selecionado");
+        usuarioClicado.classList.add("selecionado");
+    }
+
+    UsuarioSelecionadoEl = document.querySelector(".menu-lateral__lista.usuarios .selecionado");
+
+    mensagem.to = UsuarioSelecionadoEl.innerText;
+
+    alterarDestinarárioOuVisiblidade()
+}
+
+function selecionarVisibilidade(visibilidadeClicada) {
+    let visibilidadeSelecionadaEl = document.querySelector(".menu-lateral__lista.visibilidade .selecionado");
+
+    if (visibilidadeSelecionadaEl === null) {
+        visibilidadeClicada.classList.add("selecionado");
+    }
+    else {
+        visibilidadeSelecionadaEl.classList.remove("selecionado");
+        visibilidadeClicada.classList.add("selecionado");
+    }
+
+    visibilidadeSelecionadaEl = document.querySelector(".menu-lateral__lista.visibilidade .selecionado");
+
+    let visibilidadeSelecionada = visibilidadeSelecionadaEl.innerText;
+
+    switch (visibilidadeSelecionada) {
+        case "Público":
+            mensagem.type = "message"
+            break
+        case "Reservadamente":
+            mensagem.type = "private_message"
+            break
+    }
+
+    alterarDestinarárioOuVisiblidade()
+}
+
+function enviarMensagemTeclaEnter() {
+    const campoInputEl = document.querySelector(".caixa-mensagem__input")
+    campoInputEl.onkeydown = function (evento) {
+        if (evento.code === "Enter") {
+            enviarMensagem();
+        }
+    }
+}
+
+function alterarDestinarárioOuVisiblidade() {
+    const infoAdicionalEl = document.querySelector(".caixa-mensagem__info-adicional");
+
+    let templateVisibilidade = ""
+
+    switch (mensagem.type) {
+        case "message":
+            templateVisibilidade = ""
+            break
+        case "private_message":
+            templateVisibilidade = " (reservadamente)"
+            break
+    }
+
+    if (mensagem.to === "Todos") {
+        infoAdicionalEl.classList.add("escondido");
+        document.querySelector(".menu-lateral__item.publico").classList.add("selecionado")
+        document.querySelector(".menu-lateral__item.reservadamente").classList.remove("selecionado")
+        document.querySelector(".menu-lateral__item.reservadamente").removeAttribute("onclick")
+        mensagem.type = "message"
+    } else {
+        infoAdicionalEl.classList.remove("escondido");
+        document.querySelector(".menu-lateral__item.reservadamente").setAttribute("onclick", "selecionarVisibilidade(this)")
+        templateInputMensagem = `Enviando para ${mensagem.to}${templateVisibilidade}`
+    }
+
+    infoAdicionalEl.innerText = templateInputMensagem
+}
+
 // Inicialização das funções
-// setTimeout(prevenirAnimacaoAoCarregar, 100);
+setTimeout(prevenirAnimacaoAoCarregar, 100);
+// cadastrarUsuarioHardCoded();
 buscarMensagens();
-intervaloBuscarMensagens = setInterval(buscarMensagens, 5000);
-intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 5000);
+intervaloBuscarMensagens = setInterval(buscarMensagens, 3000);
+enviarMensagemTeclaEnter()

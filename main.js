@@ -136,12 +136,16 @@ function imprimirParticipantes(response) {
 
     const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios")
 
-    listaUsuariosEl.innerHTML = ""
+    listaUsuariosEl.innerHTML = `<li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>`
 
     for (let i = 0; i < participantes.length; i++) {
         const participante = participantes[i]
 
         const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)">${participante.name}</li>`
+
+        if (participante.name === usuario.name) {
+            continue
+        }
 
         listaUsuariosEl.innerHTML += templateUsuarioLista
     }
@@ -159,17 +163,18 @@ function enviarMensagem() {
     promise.catch(enviarMensagemFalhou);
 
     buscarMensagens();
-    MensagemEl.value = ""
-    mensagem = {};
+    MensagemEl.value = "";
+    mensagem.text = "";
 }
 
 function enviarMensagemOK() {
     console.log("mensagem foi")
 }
 
-function enviarMensagemFalhou() {
+function enviarMensagemFalhou(erro) {
     alert("Vish, parece que você está desconectado. Faça o login de novo.")
-    window.location.reload()
+    console.log(erro.response)
+    // window.location.reload()
 }
 
 function abrirMenuLateral() {

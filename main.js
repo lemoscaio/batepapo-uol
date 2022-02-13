@@ -1,11 +1,15 @@
 let usuario = {
     // name: "youtube.com/graduacaonerd"
+    name: "antedeguemon"
 };
 let intervaloBuscarMensagens = null;
 let intervaloVerificarConexao = null;
 let intervaloBuscarParticipantes = null;
-let mensagensAntigas = [];
 let visibilidade = true;
+
+let ultimaMensagemRecebidaEl = null
+let primeiraVezBuscandoMensagens = true;
+
 
 let mensagem = {
     to: "Todos",
@@ -35,18 +39,24 @@ function cadastrarUsuarioHardCodedFalhou(response) {
 // Funções
 
 function cadastrarUsuario() {
-    const inputEl = document.querySelector(".tela-login__input")
-    usuario.name = inputEl.value
+    const inputEl = document.querySelector(".tela-login__input");
+    usuario.name = inputEl.value;
 
-    const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", usuario);
+    const areaLoginEl = document.querySelector(".tela-login__area-login")
+    areaLoginEl.classList.add("escondido")
+
+    const telaEntrandoEl = document.querySelector(".tela-login__entrando")
+    telaEntrandoEl.classList.remove("escondido")
+
+    const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", usuario)
 
     promise.then(cadastrarUsuarioOK);
     promise.catch(cadastrarUsuarioFalhou);
 }
 
 function cadastrarUsuarioOK(response) {
-    const telaLoginEl = document.querySelector(".tela-login")
-    telaLoginEl.classList.add("escondido")
+    const telaLoginEl = document.querySelector(".tela-login");
+    telaLoginEl.classList.add("escondido");
 
     buscarParticipantes()
     intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
@@ -56,32 +66,30 @@ function cadastrarUsuarioOK(response) {
 
 function cadastrarUsuarioFalhou(response) {
     if (usuario.name == null || usuario.name == "") {
-        const telaLoginAreaErroEl = document.querySelector(".tela-login__area-erro")
-        telaLoginAreaErroEl.innerHTML = ""
-        telaLoginAreaErroEl.innerHTML += `<div class="tela-login__area-erro"><p class="tela-login__mensagem-erro">Digite um nome de usuário.</p></div>`
-        console.log(usuario.name)
+        const telaLoginAreaErroEl = document.querySelector(".tela-login__area-erro");
+        telaLoginAreaErroEl.innerHTML = "";
+        telaLoginAreaErroEl.innerHTML += `<div class="tela-login__area-erro"><p class="tela-login__mensagem-erro">Digite um nome de usuário.</p></div>`;
     }
     else {
-        const telaLoginAreaErroEl = document.querySelector(".tela-login__area-erro")
-        telaLoginAreaErroEl.innerHTML = ""
-        telaLoginAreaErroEl.innerHTML += `<div class="tela-login__area-erro"><p class="tela-login__mensagem-erro">Usuário ${usuario.name} já existe! Tente outro nome.</p></div>`
+        const telaLoginAreaErroEl = document.querySelector(".tela-login__area-erro");
+        telaLoginAreaErroEl.innerHTML = "";
+        telaLoginAreaErroEl.innerHTML += `<div class="tela-login__area-erro"><p class="tela-login__mensagem-erro">Usuário ${usuario.name} já existe! Tente outro nome.</p></div>`;
     }
 }
 
 function verificarConexaoUsuario() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/status", usuario);
     promise.then(verificarConexaoUsuarioOK);
-    promise.catch(verificarConexaoUsuarioFalhou)
+    promise.catch(verificarConexaoUsuarioFalhou);
 }
 
 function verificarConexaoUsuarioOK(response) {
-    console.log(response)
-    console.log("Ok, continua conectado!")
+    console.log("Ok, continua conectado!");
 }
 
 function verificarConexaoUsuarioFalhou(response) {
-    console.log(response)
-    console.log("Deu ruim e o usuário não está mais conectado!")
+    console.log(response);
+    console.log("Deu ruim e o usuário não está mais conectado!");
 }
 
 function buscarMensagens() {
@@ -90,64 +98,81 @@ function buscarMensagens() {
 }
 
 function imprimirMensagens(response) {
-    const mensagensNovas = response.data;
     const mensagensEl = document.querySelector(".mensagens");
-    mensagensEl.innerHTML = "";
+    // mensagensEl.innerHTML = "";
 
-    for (let i = 0; i < mensagensNovas.length; i++) {
-        const mensagemNova = mensagensNovas[i];
+    let indexImprimirMensagens = 0
 
-        let paraQuem = ""
+    let mensagensRecebidas = response.data;
 
-        switch (mensagemNova.type) {
+    if (primeiraVezBuscandoMensagens === false) {
+        for (let i = mensagensRecebidas.length - 1; i > 0; i--) {
+            mensagemRecebida = mensagensRecebidas[i];
+            if (mensagemRecebida.time === ultimaMensagemRecebidaEl.time && mensagemRecebida.from === ultimaMensagemRecebidaEl.from && mensagemRecebida.text === ultimaMensagemRecebidaEl.text) {
+                indexImprimirMensagens = i + 1
+                break
+            } else {
+                continue
+            }
+        }
+    } 
+
+    ultimaMensagemRecebidaEl = mensagensRecebidas.at(-1)
+
+    for (indexImprimirMensagens; indexImprimirMensagens < mensagensRecebidas.length; indexImprimirMensagens++) {
+
+        const mensagemRecebida = mensagensRecebidas[indexImprimirMensagens];
+        let paraQuem = "";
+
+        switch (mensagemRecebida.type) {
             case "status":
-                paraQuem = ""
-                mensagemNova.to = ""
-                break
+                paraQuem = "";
+                mensagemRecebida.to = "";
+                break;
             case "message":
-                paraQuem = "para"
-                mensagemNova.to += ":"
-                break
+                paraQuem = "para";
+                mensagemRecebida.to += ":";
+                break;
             case "private_message":
-                paraQuem = "reservadamente para"
-                mensagemNova.to += ":"
+                paraQuem = "reservadamente para";
+                mensagemRecebida.to += ":";
         }
 
-
-        const templateMensagem = `<article class="mensagem ${mensagemNova.type}">
-        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemNova.time})</span> <span class="mensagem__nome">${mensagemNova.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemNova.to}</span> ${mensagemNova.text}</p>
-        </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM
+        const templateMensagem = `<article class="mensagem ${mensagemRecebida.type}">
+        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemRecebida.time})</span> <span class="mensagem__nome">${mensagemRecebida.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemRecebida.to}</span> ${mensagemRecebida.text}</p>
+        </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM'
 
         mensagensEl.innerHTML += templateMensagem;
 
-        mensagensEl.lastChild.scrollIntoView({ behavior: "auto", block: "end", inline: "nearest" });
+        mensagensEl.lastChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     }
 
-
+    primeiraVezBuscandoMensagens = false
+    
 }
 
 function buscarParticipantes() {
-    const promise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants")
-    promise.then(imprimirParticipantes)
+    const promise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+    promise.then(imprimirParticipantes);
 }
 
 function imprimirParticipantes(response) {
-    const participantes = response.data
+    const participantes = response.data;
 
-    const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios")
+    const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios");
 
-    listaUsuariosEl.innerHTML = `<li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>`
+    listaUsuariosEl.innerHTML = `<li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>`;
 
     for (let i = 0; i < participantes.length; i++) {
-        const participante = participantes[i]
+        const participante = participantes[i];
 
-        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)">${participante.name}</li>`
+        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this) data-identifier="participant"">${participante.name}</li>`;
 
         if (participante.name === usuario.name) {
-            continue
+            continue;
         }
 
-        listaUsuariosEl.innerHTML += templateUsuarioLista
+        listaUsuariosEl.innerHTML += templateUsuarioLista;
     }
 }
 
@@ -162,19 +187,19 @@ function enviarMensagem() {
     promise.then(enviarMensagemOK);
     promise.catch(enviarMensagemFalhou);
 
-    buscarMensagens();
     MensagemEl.value = "";
     mensagem.text = "";
 }
 
 function enviarMensagemOK() {
-    console.log("mensagem foi")
+    console.log("mensagem foi");
+    buscarMensagens();
 }
 
 function enviarMensagemFalhou(erro) {
-    alert("Vish, parece que você está desconectado. Faça o login de novo.")
-    console.log(erro.response)
-    // window.location.reload()
+    alert("Vish, parece que você está desconectado. Faça o login de novo.");
+    console.log(erro.response);
+    window.location.reload();
 }
 
 function abrirMenuLateral() {
@@ -211,7 +236,7 @@ function selecionarUsuario(usuarioClicado) {
 
     mensagem.to = UsuarioSelecionadoEl.innerText;
 
-    alterarDestinarárioOuVisiblidade()
+    alterarDestinarárioOuVisiblidade();
 }
 
 function selecionarVisibilidade(visibilidadeClicada) {
@@ -231,18 +256,18 @@ function selecionarVisibilidade(visibilidadeClicada) {
 
     switch (visibilidadeSelecionada) {
         case "Público":
-            mensagem.type = "message"
-            break
+            mensagem.type = "message";
+            break;
         case "Reservadamente":
-            mensagem.type = "private_message"
-            break
+            mensagem.type = "private_message";
+            break;
     }
 
-    alterarDestinarárioOuVisiblidade()
+    alterarDestinarárioOuVisiblidade();
 }
 
 function enviarMensagemTeclaEnter() {
-    const campoInputEl = document.querySelector(".caixa-mensagem__input")
+    const campoInputEl = document.querySelector(".caixa-mensagem__input");
     campoInputEl.onkeydown = function (evento) {
         if (evento.code === "Enter") {
             enviarMensagem();
@@ -253,35 +278,35 @@ function enviarMensagemTeclaEnter() {
 function alterarDestinarárioOuVisiblidade() {
     const infoAdicionalEl = document.querySelector(".caixa-mensagem__info-adicional");
 
-    let templateVisibilidade = ""
+    let templateVisibilidade = "";
 
     switch (mensagem.type) {
         case "message":
-            templateVisibilidade = ""
-            break
+            templateVisibilidade = "";
+            break;
         case "private_message":
-            templateVisibilidade = " (reservadamente)"
-            break
+            templateVisibilidade = " (reservadamente)";
+            break;
     }
 
     if (mensagem.to === "Todos") {
         infoAdicionalEl.classList.add("escondido");
-        document.querySelector(".menu-lateral__item.publico").classList.add("selecionado")
-        document.querySelector(".menu-lateral__item.reservadamente").classList.remove("selecionado")
-        document.querySelector(".menu-lateral__item.reservadamente").removeAttribute("onclick")
-        mensagem.type = "message"
+        document.querySelector(".menu-lateral__item.publico").classList.add("selecionado");
+        document.querySelector(".menu-lateral__item.reservadamente").classList.remove("selecionado");
+        document.querySelector(".menu-lateral__item.reservadamente").removeAttribute("onclick");
+        mensagem.type = "message";
     } else {
         infoAdicionalEl.classList.remove("escondido");
-        document.querySelector(".menu-lateral__item.reservadamente").setAttribute("onclick", "selecionarVisibilidade(this)")
-        templateInputMensagem = `Enviando para ${mensagem.to}${templateVisibilidade}`
+        document.querySelector(".menu-lateral__item.reservadamente").setAttribute("onclick", "selecionarVisibilidade(this)");
+        templateInputMensagem = `Enviando para ${mensagem.to}${templateVisibilidade}`;
     }
 
-    infoAdicionalEl.innerText = templateInputMensagem
+    infoAdicionalEl.innerText = templateInputMensagem;
 }
 
 // Inicialização das funções
-setTimeout(prevenirAnimacaoAoCarregar, 100);
-// cadastrarUsuarioHardCoded();
+// setTimeout(prevenirAnimacaoAoCarregar, 100);
+cadastrarUsuarioHardCoded();
 buscarMensagens();
 intervaloBuscarMensagens = setInterval(buscarMensagens, 3000);
-enviarMensagemTeclaEnter()
+enviarMensagemTeclaEnter();

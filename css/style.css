@@ -1,4 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
 * {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
@@ -26,6 +42,37 @@
   align-items: center;
   justify-content: center;
 }
+.tela-login__area-login.escondido {
+  display: none;
+}
+.tela-login__entrando.escondido {
+  display: none;
+}
+.tela-login__texto-entrando {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+.tela-login__load {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 30px;
+  border: solid 10px black;
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-transition: all 0.5s ease-in;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  transition: all 0.5s ease-in;
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 .tela-login__logo {
   width: 130px;
   margin-top: 30%;
@@ -37,14 +84,14 @@
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   text-align: center;
-  border: 1px solid #D7D7D7;
+  border: 1px solid #d7d7d7;
   border-radius: 4px;
 }
 .tela-login__input::placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   text-align: center;
-  color: #AEAEAE;
+  color: #aeaeae;
 }
 .tela-login__input:focus {
   outline: none;
@@ -53,7 +100,7 @@
   color: transparent;
 }
 .tela-login__botao {
-  background-color: #E7E7E7;
+  background-color: #e7e7e7;
   cursor: pointer;
   margin: 5px;
   padding: 12px 30px;

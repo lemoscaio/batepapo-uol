@@ -20,14 +20,18 @@
     </header>
 
     <!-- Tela de Login -->
-    <section class="tela-login">
+    <section class="tela-login escondido">
         <img src="imagens/logo 1.png" alt="" class="tela-login__logo">
         <div class="tela-login__area-login">
             <input data-identifier="enter-name" class="tela-login__input" type="text" name="" id="" placeholder="Digite seu nome">
             <button data-identifier="start" class="tela-login__botao" onclick="cadastrarUsuario()">Entrar</button>
             <div class="tela-login__area-erro">
-                <!-- <p class="tela-login__mensagem-erro">Usuário ${usuario.name} já existe!<br>Tente outro nome.</p> -->
+                <!-- Mensagem via JavaScript -->
             </div> 
+        </div>
+        <div class="tela-login__entrando escondido">
+            <div class="tela-login__load"></div>
+            <p class="tela-login__texto-entrando">Entrando...</p>
         </div>
     </section>
 
@@ -38,52 +42,20 @@
         <h2 class="menu-lateral__titulo">Escolha um contato para enviar mensagem:</h2>
         <ul class="menu-lateral__lista usuarios">
             <li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>
-            <li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)">João</li> <!-- TEMPORÁRIO -->
-            <li class="menu-lateral__item usuario " onclick="selecionarUsuario(this)">Maria</li> <!-- TEMPORÁRIO -->
+            <!-- Usuários via JavaScript -->
         </ul>
         <h2 class="menu-lateral__titulo">Escolha a visibilidade:</h2>
         <ul class="menu-lateral__lista visibilidade">
-            <li class="menu-lateral__item publico selecionado" onclick="selecionarVisibilidade(this)">Público</li>
-            <li class="menu-lateral__item reservadamente" onclick="selecionarVisibilidade(this)">
+            <li class="menu-lateral__item publico selecionado" data-identifier="visibility" onclick="selecionarVisibilidade(this)">Público</li>
+            <li class="menu-lateral__item reservadamente" data-identifier="visibility" onclick="selecionarVisibilidade(this)">
                 Reservadamente</li>
         </ul>
     </nav>
-    <!-- </div> -->
 
     <!-- Mensagens -->
     <main class="container">
             <section class="mensagens">
-                <!-- <article class="mensagem status type">
-                    <p class="mensagem__horario time">(09:21:45) </p>
-                    <p class="mensagem__nome from"> João </p>
-                    <p class="mensagem__texto text"> entra na sala...</p>
-                </article>
-                <article class="mensagem normal type">
-                    <p class="mensagem__horario time">(09:22:28) </p>
-                    <p class="mensagem__nome from">João </p>
-                    <p class="mensagem__para">para </p>
-                    <p class="mensagem__nome to">Todos </p>
-                    <p class="mensagem__texto text">Bom dia</p>
-                </article>
-                <article class="mensagem normal type">
-                    <p class="mensagem__horario time">(09:22:38) </p>
-                    <p class="mensagem__from">Maria </p>
-                    <p class="mensagem__para">para </p>
-                    <p class="mensagem__nome to">João </p>
-                    <p class="mensagem__texto text">Oi João :)</p>
-                </article>
-                <article class="mensagem reservada type">
-                    <p class="mensagem__horario time">(09:22:48) </p>
-                    <p class="mensagem__nome">João </p>
-                    <p class="mensagem__para">reservadamente para </p>
-                    <p class="mensagem__nome to">Maria </p>
-                    <p class="mensagem__texto text">Oi gatinha quer tc?</p>
-                </article>
-                <article class="mensagem status type">
-                    <p class="mensagem__horario time">(09:22:58)</p>
-                    <p class="mensagem__nome to">Maria</p>
-                    <p class="mensagem__texto text">sai da sala...</p>
-                </article> -->
+                <!-- Mensagens via JavaScript -->
             </section>
     </main>
 

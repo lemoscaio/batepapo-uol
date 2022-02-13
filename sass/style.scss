@@ -1,6 +1,6 @@
 // Fontes
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 // Variáveis
 
@@ -8,15 +8,15 @@ $cor-fundo: #e5e5e5;
 $cor-fundo-status: #dcdcdc;
 $cor-fundo-normal: white;
 $cor-fundo-reservada: #ffdede;
-$cor-texto-input: #AEAEAE;
-$cor-fundo-botao: #E7E7E7;
+$cor-texto-input: #aeaeae;
+$cor-fundo-botao: #e7e7e7;
 $cor-texto-botao: #696969;
 
 $fonte-padrao: "Roboto", sans-serif;
 
 @mixin desktop-only {
     @media screen and (min-width: 1000px) {
-        @content
+        @content;
     }
 }
 
@@ -27,6 +27,24 @@ $fonte-padrao: "Roboto", sans-serif;
 //     transition:background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;}
 
 // Regras
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
 
 * {
     box-sizing: border-box;
@@ -57,6 +75,46 @@ $fonte-padrao: "Roboto", sans-serif;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        &.escondido {
+            display: none;
+        }
+    }
+
+    &__entrando {
+
+        &.escondido {
+            display: none;
+        }
+    }
+
+    &__texto-entrando {
+        font-family: $fonte-padrao;
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+
+    }
+
+    &__load {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
+        border: solid 10px black;
+        border-radius: 50%;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        -webkit-transition: all 0.5s ease-in;
+        -webkit-animation-name: rotate;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+
+        transition: all 0.5s ease-in;
+        animation-name: rotate;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
     }
 
     &__logo {
@@ -64,7 +122,7 @@ $fonte-padrao: "Roboto", sans-serif;
         margin-top: 30%;
         margin-bottom: 30%;
     }
-    
+
     &__input {
         margin: 10px;
         padding: 18px;
@@ -73,20 +131,20 @@ $fonte-padrao: "Roboto", sans-serif;
         font-size: 18px;
         text-align: center;
 
-        border: 1px solid #D7D7D7;
+        border: 1px solid #d7d7d7;
         border-radius: 4px;
-        
+
         &::placeholder {
             font-family: $fonte-padrao;
             font-weight: 400;
             text-align: center;
-            color: #AEAEAE;
+            color: #aeaeae;
         }
 
-        &:focus{
+        &:focus {
             outline: none;
 
-            &::placeholder{
+            &::placeholder {
                 color: transparent;
             }
         }
@@ -170,7 +228,7 @@ $fonte-padrao: "Roboto", sans-serif;
     z-index: 2;
 
     &.escondido {
-        display: none;   
+        display: none;
     }
 }
 
@@ -186,17 +244,16 @@ $fonte-padrao: "Roboto", sans-serif;
     font-family: $fonte-padrao;
     font-size: 16px;
 
-    
     background-color: $cor-fundo-normal;
-    
+
     padding: 0 0 0 17px;
-    
+
     transition: all 150ms;
-    
+
     &.escondido {
         transform: translateX(100%);
     }
-    
+
     & * {
         overflow-x: hidden;
     }
@@ -215,15 +272,15 @@ $fonte-padrao: "Roboto", sans-serif;
         overflow-y: scroll;
     }
 
-    &__item{
+    &__item {
         position: relative;
         padding: 15px 0;
 
         display: flex;
 
         &::before {
-        vertical-align: middle;
-        margin-right: 9px;
+            vertical-align: middle;
+            margin-right: 9px;
         }
 
         &.todos::before {
@@ -253,10 +310,9 @@ $fonte-padrao: "Roboto", sans-serif;
         }
     }
 
-    @include desktop-only(){
-        left: 70%;;
+    @include desktop-only() {
+        left: 70%;
     }
-
 }
 
 .container {
@@ -309,9 +365,7 @@ $fonte-padrao: "Roboto", sans-serif;
         &.private_message {
             background-color: $cor-fundo-reservada;
         }
-
     }
-
 }
 
 .caixa-mensagem {

@@ -101,9 +101,11 @@ function imprimirMensagens(response) {
     const mensagensEl = document.querySelector(".mensagens");
     // mensagensEl.innerHTML = "";
 
-    let indexImprimirMensagens = 0
+    let indexImprimirMensagens = 0;
 
     let mensagensRecebidas = response.data;
+
+    mensagensRecebidas = mensagensRecebidas.filter(filtrarMensagensReservadas);
 
     if (primeiraVezBuscandoMensagens === false) {
         for (let i = mensagensRecebidas.length - 1; i > 0; i--) {
@@ -151,6 +153,20 @@ function imprimirMensagens(response) {
     
 }
 
+function filtrarMensagensReservadas(mensagem) {
+    if ( mensagem.type === "private_message" && (mensagem.from === usuario.name || mensagem.to === usuario.name)) {
+        console.log("mensagem é reservada. A mensagem é:")
+        console.log(mensagem)
+        return true
+    } else if (mensagem.type === "private_message" && !(mensagem.from === usuario.name || mensagem.to === usuario.name)) {
+        console.log("a mensagem é reservada mas não para você. a mensagem é:")
+        console.log(mensagem)
+        return false
+    } else {
+        return true
+    }
+}
+
 function buscarParticipantes() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
     promise.then(imprimirParticipantes);
@@ -166,7 +182,7 @@ function imprimirParticipantes(response) {
     for (let i = 0; i < participantes.length; i++) {
         const participante = participantes[i];
 
-        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this) data-identifier="participant"">${participante.name}</li>`;
+        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)" data-identifier="participant">${participante.name}</li>`;
 
         if (participante.name === usuario.name) {
             continue;
@@ -306,7 +322,7 @@ function alterarDestinarárioOuVisiblidade() {
 
 // Inicialização das funções
 // setTimeout(prevenirAnimacaoAoCarregar, 100);
-cadastrarUsuarioHardCoded();
+// cadastrarUsuarioHardCoded();
 buscarMensagens();
 intervaloBuscarMensagens = setInterval(buscarMensagens, 3000);
 enviarMensagemTeclaEnter();

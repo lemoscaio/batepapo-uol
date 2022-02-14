@@ -1,16 +1,20 @@
-let randomString = (Math.random() + 1).toString(36).substring(7);
+let randomString = (Math.random() + 1).toString(36).substring(7); // VARIÁVEL APENAS PARA TESTE
 
 let usuario = {
-    // name: "youtube.com/graduacaonerd"
-    // name: "antedeguemon"
-    name: randomString
+    // name: "youtube.com/graduacaonerd" --> VARIÁVEL APENAS PARA TESTE
+    // name: "antedeguemon" --> VARIÁVEL APENAS PARA TESTE
+    // name: randomString --> VARIÁVEL APENAS PARA TESTE
 };
 
-console.log("O seu usário é " + usuario.name)
-
+//Intervalos de setInterval
 let intervaloBuscarMensagens = null;
 let intervaloVerificarConexao = null;
 let intervaloBuscarParticipantes = null;
+const TEMPOINTERVALOBUSCARMENSAGENS = 3000
+const TEMPOINTERVALOBUSCARPARTICIPANTES = 10000
+const TEMPOINTERVALOVERIFICARCONEXAO = 5000
+
+// Variáveis para função de alterar visibilidade
 let visibilidade = true;
 
 // Variáveis para função de Receber Mensagens
@@ -25,13 +29,13 @@ let achouUsuario = false;
 let achouUsuarioAntigo = false;
 
 
-
+// Declaração de padrão de mensagem
 let mensagem = {
     to: "Todos",
     type: "message"
 };
 
-// Funções temporárias
+// Funções APENAS para testes -> Adicionar classe "escondido" na tela de login, de modo a fazer um bypass
 
 function cadastrarUsuarioHardCoded() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants", usuario);
@@ -41,10 +45,11 @@ function cadastrarUsuarioHardCoded() {
 }
 
 function cadastrarUsuarioHardCodedOK(response) {
+    console.log("O seu usário é " + usuario.name)
     buscarParticipantes()
-    intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
+    intervaloBuscarParticipantes = setInterval(buscarParticipantes, TEMPOINTERVALOBUSCARPARTICIPANTES);
 
-    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 5000);
+    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, TEMPOINTERVALOVERIFICARCONEXAO);
 }
 
 function cadastrarUsuarioHardCodedFalhou(response) {
@@ -73,9 +78,9 @@ function cadastrarUsuarioOK(response) {
     telaLoginEl.classList.add("escondido");
 
     buscarParticipantes()
-    intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
+    intervaloBuscarParticipantes = setInterval(buscarParticipantes, TEMPOINTERVALOBUSCARPARTICIPANTES);
 
-    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 3000);
+    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, TEMPOINTERVALOVERIFICARCONEXAO);
 }
 
 function cadastrarUsuarioFalhou(response) {
@@ -154,7 +159,7 @@ function imprimirMensagens(response) {
                 mensagemRecebida.to += ":";
         }
 
-        const templateMensagem = `<article class="mensagem ${mensagemRecebida.type}">
+        const templateMensagem = `<article class="mensagem ${mensagemRecebida.type}" data-identifier="message">
         <p class="mensagem__conteudo"><span class="mensagem__horario">(${mensagemRecebida.time})</span> <span class="mensagem__nome">${mensagemRecebida.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemRecebida.to}</span> ${mensagemRecebida.text}</p>
         </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM'
 
@@ -201,10 +206,8 @@ function imprimirParticipantes(response) {
         listaUsuariosEl.innerHTML += templateUsuarioLista;
     }
 
-
-    
     const listaTodosUsuarios = [...document.querySelectorAll(".menu-lateral__item.usuario")]
-    
+
     for (let i = 0; i < participantesAntigos.length; i++) {
         let participanteAntigo = participantesAntigos[i]
 
@@ -230,7 +233,7 @@ function imprimirParticipantes(response) {
 
 function filtrarParticipantesNovos(participanteRecebido) {
     achouUsuario = false
-    
+
     for (let i = 0; i < listaUsuariosAnterior.length; i++) {
         let usuarioAnterior = listaUsuariosAnterior[i];
         if (participanteRecebido.name === usuarioAnterior.name) {
@@ -305,10 +308,6 @@ function fecharMenuLateral(divEscurecidaEl) {
 
     menuLateralEl.classList.add("escondido");
     divEscurecidaEl.classList.add("escondido");
-}
-
-function prevenirAnimacaoAoCarregar() {
-    document.body.className = "";
 }
 
 function selecionarUsuario(usuarioClicado) {
@@ -402,8 +401,8 @@ function alterarDestinarárioOuVisiblidade() {
 }
 
 // Inicialização das funções
-// setTimeout(prevenirAnimacaoAoCarregar, 100);
-cadastrarUsuarioHardCoded();
+
+// cadastrarUsuarioHardCoded();
 buscarMensagens();
-intervaloBuscarMensagens = setInterval(buscarMensagens, 3000);
+intervaloBuscarMensagens = setInterval(buscarMensagens, TEMPOINTERVALOBUSCARMENSAGENS);
 enviarMensagemTeclaEnter();

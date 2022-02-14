@@ -35,8 +35,14 @@
   justify-content: flex-start;
   transition: transform 0.3s ease;
 }
+.tela-login__logo {
+  width: 130px;
+  position: relative;
+  top: 10%;
+  margin-bottom: 15vh;
+}
 .tela-login__area-login {
-  margin-bottom: 30%;
+  margin-bottom: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,30 +59,6 @@
   font-size: 20px;
   font-weight: 500;
   text-align: center;
-}
-.tela-login__load {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 30px;
-  border: solid 10px black;
-  border-radius: 50%;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  -webkit-transition: all 0.5s ease-in;
-  -webkit-animation-name: rotate;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  transition: all 0.5s ease-in;
-  animation-name: rotate;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-.tela-login__logo {
-  width: 130px;
-  margin-top: 30%;
-  margin-bottom: 30%;
 }
 .tela-login__input {
   margin: 10px;
@@ -124,6 +106,25 @@
 .tela-login.escondido {
   transform: translateY(-100%);
 }
+.tela-login__load {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 30px;
+  border: solid 10px black;
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-transition: all 0.5s ease-in;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  transition: all 0.5s ease-in;
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 
 .barra-fixa {
   background-color: white;
@@ -167,8 +168,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  min-width: 260px;
-  max-width: 400px;
+  max-width: 260px;
   z-index: 3;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -178,9 +178,6 @@
 }
 .menu-lateral.escondido {
   transform: translateX(100%);
-}
-.menu-lateral * {
-  overflow-x: hidden;
 }
 .menu-lateral__titulo {
   font-weight: 700;
@@ -198,6 +195,10 @@
   position: relative;
   padding: 15px 0;
   display: flex;
+  width: 200px;
+  overflow-wrap: anywhere;
+  hyphens: manual;
+  inline-size: 210px;
 }
 .menu-lateral__item::before {
   vertical-align: middle;
@@ -217,7 +218,7 @@
 }
 .menu-lateral__item.selecionado::after {
   position: absolute;
-  right: 30px;
+  left: 100%;
   vertical-align: middle;
   content: url("../imagens/icones/check.svg");
   transform: scale(1.2);

@@ -51,6 +51,30 @@ $fonte-padrao: "Roboto", sans-serif;
     font-family: $fonte-padrao;
 }
 
+/* Funciona no Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(105, 103, 103) rgb(255, 255, 255, 0);
+
+    /* Funciona no Chrome, Edge, Safari OperaGx */
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgb(255, 255, 255, 0);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        border: 3px solid rgba(0, 0, 0, 0.6);
+    }
+}
+
+
+
+
+
 .tela-login {
     position: fixed;
     top: 0;
@@ -253,10 +277,6 @@ $fonte-padrao: "Roboto", sans-serif;
         transform: translateX(100%);
     }
 
-    & * {
-        // overflow-x: hidden;
-    }
-
     &__titulo {
         font-weight: 700;
         font-size: 16px;
@@ -268,7 +288,7 @@ $fonte-padrao: "Roboto", sans-serif;
 
     &__lista {
         max-height: 60%;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     &__item {
@@ -281,7 +301,6 @@ $fonte-padrao: "Roboto", sans-serif;
         overflow-wrap: anywhere;
         hyphens: manual;
         inline-size: 210px;
-    
 
         &::before {
             vertical-align: middle;

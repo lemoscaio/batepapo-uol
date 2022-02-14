@@ -252,7 +252,7 @@
   left: 0;
   right: 0;
   top: 80px;
-  height: calc(100vh - 160px);
+  height: calc(100% - 160px);
   overflow-y: scroll;
   padding: 26px 0;
 }

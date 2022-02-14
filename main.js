@@ -108,12 +108,9 @@ function verificarConexaoUsuario() {
 }
 
 function verificarConexaoUsuarioOK(response) {
-    console.log("Ok, continua conectado!");
 }
 
 function verificarConexaoUsuarioFalhou(response) {
-    console.log(response);
-    console.log("Deu ruim e o usuário não está mais conectado!");
 }
 
 function buscarMensagens() {
@@ -191,7 +188,6 @@ function buscarParticipantes() {
 }
 
 function imprimirParticipantes(response) {
-    console.log("Início da função imprimirParticipantes")
     const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios");
 
     participantesRecebidos = response.data;
@@ -228,10 +224,6 @@ function imprimirParticipantes(response) {
     if (document.querySelector(".menu-lateral__lista.usuarios .selecionado") === null) {
         selecionarUsuario(document.querySelector(".menu-lateral__item.todos"))
     }
-
-    console.log("no fim da função, os participantes que deslogaram são")
-    console.log(participantesAntigos)
-    console.log("Fim da função imprimirParticipantes")
 
     listaUsuariosAnterior = participantesRecebidos;
 }
@@ -290,13 +282,11 @@ function enviarMensagem() {
 }
 
 function enviarMensagemOK() {
-    console.log("mensagem foi");
     buscarMensagens();
 }
 
 function enviarMensagemFalhou(erro) {
     alert("Vish, parece que você está desconectado. Faça o login de novo.");
-    console.log(erro.response);
     window.location.reload();
 }
 

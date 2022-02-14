@@ -84,6 +84,11 @@ function cadastrarUsuarioOK(response) {
 }
 
 function cadastrarUsuarioFalhou(response) {
+    const areaLoginEl = document.querySelector(".tela-login__area-login")
+    areaLoginEl.classList.remove("escondido")
+    const telaEntrandoEl = document.querySelector(".tela-login__entrando")
+    telaEntrandoEl.classList.add("escondido")
+
     if (usuario.name == null || usuario.name == "") {
         const telaLoginAreaErroEl = document.querySelector(".tela-login__area-erro");
         telaLoginAreaErroEl.innerHTML = "";

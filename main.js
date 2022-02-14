@@ -1,14 +1,29 @@
+let randomString = (Math.random() + 1).toString(36).substring(7);
+
 let usuario = {
     // name: "youtube.com/graduacaonerd"
-    name: "antedeguemon"
+    // name: "antedeguemon"
+    name: randomString
 };
+
+console.log("O seu usário é " + usuario.name)
+
 let intervaloBuscarMensagens = null;
 let intervaloVerificarConexao = null;
 let intervaloBuscarParticipantes = null;
 let visibilidade = true;
 
-let ultimaMensagemRecebidaEl = null
+// Variáveis para função de Receber Mensagens
+let participantesRecebidos = []
+let ultimaMensagemRecebidaEl = null;
 let primeiraVezBuscandoMensagens = true;
+
+
+// Variáveis para função de Receber Participantes Novos ou Antigos
+let listaUsuariosAnterior = [];
+let achouUsuario = false;
+let achouUsuarioAntigo = false;
+
 
 
 let mensagem = {
@@ -33,7 +48,6 @@ function cadastrarUsuarioHardCodedOK(response) {
 }
 
 function cadastrarUsuarioHardCodedFalhou(response) {
-    console.log("Deu ruim! Usuário já existe");
 }
 
 // Funções
@@ -61,7 +75,7 @@ function cadastrarUsuarioOK(response) {
     buscarParticipantes()
     intervaloBuscarParticipantes = setInterval(buscarParticipantes, 10000);
 
-    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 5000);
+    intervaloVerificarConexao = setInterval(verificarConexaoUsuario, 3000);
 }
 
 function cadastrarUsuarioFalhou(response) {
@@ -117,7 +131,7 @@ function imprimirMensagens(response) {
                 continue
             }
         }
-    } 
+    }
 
     ultimaMensagemRecebidaEl = mensagensRecebidas.at(-1)
 
@@ -141,7 +155,7 @@ function imprimirMensagens(response) {
         }
 
         const templateMensagem = `<article class="mensagem ${mensagemRecebida.type}">
-        <p class="mensagem_conteudo"><span class="mensagem__horario">(${mensagemRecebida.time})</span> <span class="mensagem__nome">${mensagemRecebida.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemRecebida.to}</span> ${mensagemRecebida.text}</p>
+        <p class="mensagem__conteudo"><span class="mensagem__horario">(${mensagemRecebida.time})</span> <span class="mensagem__nome">${mensagemRecebida.from}</span> ${paraQuem} <span class="mensagem__nome">${mensagemRecebida.to}</span> ${mensagemRecebida.text}</p>
         </article>`; // TEMPORÁRIO -> MUDAR O "PARA" PARA DINAMICO DEPENDENDO DA MENSAGEM'
 
         mensagensEl.innerHTML += templateMensagem;
@@ -150,17 +164,11 @@ function imprimirMensagens(response) {
     }
 
     primeiraVezBuscandoMensagens = false
-    
+
 }
 
 function filtrarMensagensReservadas(mensagem) {
-    if ( mensagem.type === "private_message" && (mensagem.from === usuario.name || mensagem.to === usuario.name)) {
-        console.log("mensagem é reservada. A mensagem é:")
-        console.log(mensagem)
-        return true
-    } else if (mensagem.type === "private_message" && !(mensagem.from === usuario.name || mensagem.to === usuario.name)) {
-        console.log("a mensagem é reservada mas não para você. a mensagem é:")
-        console.log(mensagem)
+    if (mensagem.type === "private_message" && !(mensagem.from === usuario.name || mensagem.to === usuario.name)) {
         return false
     } else {
         return true
@@ -173,22 +181,88 @@ function buscarParticipantes() {
 }
 
 function imprimirParticipantes(response) {
-    const participantes = response.data;
-
+    console.log("Início da função imprimirParticipantes")
     const listaUsuariosEl = document.querySelector(".menu-lateral__lista.usuarios");
 
-    listaUsuariosEl.innerHTML = `<li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>`;
+    participantesRecebidos = response.data;
 
-    for (let i = 0; i < participantes.length; i++) {
-        const participante = participantes[i];
+    let participantesNovos = participantesRecebidos.filter(filtrarParticipantesNovos)
+    let participantesAntigos = listaUsuariosAnterior.filter(filtrarParticipantesAntigos)
 
-        const templateUsuarioLista = `<li class="menu-lateral__item usuario" onclick="selecionarUsuario(this)" data-identifier="participant">${participante.name}</li>`;
+    for (let i = 0; i < participantesNovos.length; i++) {
+        const participante = participantesNovos[i];
+
+        const templateUsuarioLista = `<li class="menu-lateral__item usuario" id="${participante.name}" onclick="selecionarUsuario(this)" data-identifier="participant">${participante.name}</li>`;
 
         if (participante.name === usuario.name) {
             continue;
         }
 
         listaUsuariosEl.innerHTML += templateUsuarioLista;
+    }
+
+
+    
+    const listaTodosUsuarios = [...document.querySelectorAll(".menu-lateral__item.usuario")]
+    
+    for (let i = 0; i < participantesAntigos.length; i++) {
+        let participanteAntigo = participantesAntigos[i]
+
+        for (let j = 0; j < listaTodosUsuarios.length; j++) {
+            let usuarioLogado = listaTodosUsuarios[j];
+
+            if (usuarioLogado.id === participanteAntigo.name) {
+                usuarioLogado.remove();
+            }
+        }
+    }
+
+    if (document.querySelector(".menu-lateral__lista.usuarios .selecionado") === null) {
+        selecionarUsuario(document.querySelector(".menu-lateral__item.todos"))
+    }
+
+    console.log("no fim da função, os participantes que deslogaram são")
+    console.log(participantesAntigos)
+    console.log("Fim da função imprimirParticipantes")
+
+    listaUsuariosAnterior = participantesRecebidos;
+}
+
+function filtrarParticipantesNovos(participanteRecebido) {
+    achouUsuario = false
+    
+    for (let i = 0; i < listaUsuariosAnterior.length; i++) {
+        let usuarioAnterior = listaUsuariosAnterior[i];
+        if (participanteRecebido.name === usuarioAnterior.name) {
+            achouUsuario = true
+            break
+        } else {
+        }
+    }
+
+    if (achouUsuario !== true) {
+        return true
+    } else {
+        return false
+    }
+
+}
+
+function filtrarParticipantesAntigos(usuarioAnterior) {
+    achoUsuarioAntigo = false
+
+    for (let i = 0; i < participantesRecebidos.length; i++) {
+        let participanteRecebido = participantesRecebidos[i];
+        if (usuarioAnterior.name === participanteRecebido.name) {
+            achoUsuarioAntigo = true
+            break
+        }
+    }
+
+    if (achoUsuarioAntigo !== true) {
+        return true
+    } else {
+        return false
     }
 }
 
@@ -289,6 +363,13 @@ function enviarMensagemTeclaEnter() {
             enviarMensagem();
         }
     }
+
+    const loginInputEl = document.querySelector(".tela-login__input");
+    loginInputEl.onkeydown = function (evento) {
+        if (evento.code === "Enter") {
+            cadastrarUsuario();
+        }
+    }
 }
 
 function alterarDestinarárioOuVisiblidade() {
@@ -322,7 +403,7 @@ function alterarDestinarárioOuVisiblidade() {
 
 // Inicialização das funções
 // setTimeout(prevenirAnimacaoAoCarregar, 100);
-// cadastrarUsuarioHardCoded();
+cadastrarUsuarioHardCoded();
 buscarMensagens();
 intervaloBuscarMensagens = setInterval(buscarMensagens, 3000);
 enviarMensagemTeclaEnter();

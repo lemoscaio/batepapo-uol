@@ -8,6 +8,7 @@
     <title>Bate Papo UOL</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="imagens/icones/logo-uol-icon-256.ico" type="image/x-icon">
 </head>
 
 <body class="preload">
@@ -20,7 +21,7 @@
     </header>
 
     <!-- Tela de Login -->
-    <section class="tela-login">
+    <section class="tela-login escondido">
         <img src="imagens/logo 1.png" alt="" class="tela-login__logo">
         <div class="tela-login__area-login">
             <input data-identifier="enter-name" class="tela-login__input" type="text" name="" id="" placeholder="Digite seu nome">
@@ -41,7 +42,7 @@
     <nav class="menu-lateral escondido">
         <h2 class="menu-lateral__titulo">Escolha um contato para enviar mensagem:</h2>
         <ul class="menu-lateral__lista usuarios">
-            <li class="menu-lateral__item todos selecionado" onclick="selecionarUsuario(this)">Todos</li>
+            <li class="menu-lateral__item todos selecionado" id="todos" onclick="selecionarUsuario(this)" data-identifier="participant">Todos</li>
             <!-- Usuários via JavaScript -->
         </ul>
         <h2 class="menu-lateral__titulo">Escolha a visibilidade:</h2>

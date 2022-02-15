@@ -10,9 +10,9 @@ let usuario = {
 let intervaloBuscarMensagens = null;
 let intervaloVerificarConexao = null;
 let intervaloBuscarParticipantes = null;
-const TEMPOINTERVALOBUSCARMENSAGENS = 3000
-const TEMPOINTERVALOBUSCARPARTICIPANTES = 10000
-const TEMPOINTERVALOVERIFICARCONEXAO = 5000
+const TEMPOINTERVALOBUSCARMENSAGENS = 1000
+const TEMPOINTERVALOBUSCARPARTICIPANTES = 1000
+const TEMPOINTERVALOVERIFICARCONEXAO = 1000
 
 // Variáveis para função de alterar visibilidade
 let visibilidade = true;
@@ -273,12 +273,16 @@ function enviarMensagem() {
     mensagem.from = usuario.name;
     mensagem.text = mensagemTexto;
 
-    const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
-    promise.then(enviarMensagemOK);
-    promise.catch(enviarMensagemFalhou);
+    if (mensagemTexto !== "") {
+        const promise = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
+        promise.then(enviarMensagemOK);
+        promise.catch(enviarMensagemFalhou);
 
-    MensagemEl.value = "";
-    mensagem.text = "";
+        MensagemEl.value = "";
+        mensagem.text = "";
+    }
+
+
 }
 
 function enviarMensagemOK() {

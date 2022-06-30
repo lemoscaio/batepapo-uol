@@ -2,7 +2,7 @@
     <img style = "width:100%;"src="https://i.imgur.com/QPxqVla.png">
 </div>
 <!-- <hr> -->
-<div align=center style="display:flex; justify-content: center;">
+<div align=center>
         <h2 align=center>EN: Uol Chat Room / PT: Bate Papo Uol</h2>
         <h3 align=center>Web development Project</h3>
         <hr>
@@ -12,7 +12,7 @@
             <h4>This was the fourth project of the Driven full stack web development bootcamp and first to use API requests.</h4>
         </div>
     <br>
-    &nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     <img style = "height:350px;" src="https://media4.giphy.com/media/lEMkRKT0DdU3EHfU68/giphy.gif?cid=790b76119795c78cbd3a76a53bc1587f7dc83b92b0e3b1cd&rid=giphy.gif&ct=g">
     
 <br>
@@ -60,7 +60,7 @@
         - [x]  If the response is successul, the chat must load the messages again and update it
         - [x]  If the response is an error, it means that this user is no longer considered online and the page must be reloaded.             
     - [x]  On sending the message, it must be sent the on the request the writer, the receiver and whether is a private message or not.
-        
+    - [x]  Send message when pressing Enter
 
 ### Built with
 
